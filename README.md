@@ -1,8 +1,26 @@
-# React + Vite
+# Image Processing Web App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
 
-Currently, two official plugins are available:
+This web application provides client-side image processing capabilities, allowing users to perform various operations on their images directly in the browser without the need for server-side processing.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
+
+- Image compression
+- Image resizing
+- Format conversion (JPEG, PNG, WebP)
+- Client-side processing (no server upload required)
+
+## Technologies Used
+
+- React.js
+- Tailwind CSS
+- NextUI
+- browser-image-compression (for image processing)
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v14 or later)
+- npm (v6 or later)
