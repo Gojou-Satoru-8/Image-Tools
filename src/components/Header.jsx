@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import {
   Navbar,
@@ -12,6 +13,10 @@ import {
 import ViteLogo from "/vite.svg";
 const Header = function () {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
+  //   console.log(location);
+  const path = location.pathname;
+  // console.log(isMenuOpen);
 
   return (
     <header className="pt-4">
@@ -32,34 +37,46 @@ const Header = function () {
 
         <NavbarContent className="hidden sm:flex gap-10 justify-end" justify="center">
           <NavbarItem>
-            <NavLink color="foreground" to="/">
+            <NavLink color="foreground" to="/" className={path === "/" ? "active-tab" : ""}>
               Home
             </NavLink>
           </NavbarItem>
           <NavbarItem>
-            <NavLink color="foreground" to="/image-tools">
+            <NavLink
+              color="foreground"
+              to="/image-tools"
+              className={path === "/image-tools" ? "active-tab" : ""}
+            >
               Image Tools
             </NavLink>
           </NavbarItem>
-          <NavbarItem isActive>
-            <NavLink to="/about" aria-current="page">
+          <NavbarItem>
+            <NavLink to="/about" className={path === "/about" ? "active-tab" : ""}>
               About
             </NavLink>
           </NavbarItem>
         </NavbarContent>
-        <NavbarMenu className="pt-4">
+        <NavbarMenu className="pt-12">
           <NavbarMenuItem>
-            <NavLink className="w-full" to="/" size="lg">
+            <NavLink className={`w-full ${path === "/" ? "active-tab" : ""}`} to="/" size="lg">
               Home
             </NavLink>
           </NavbarMenuItem>
           <NavbarMenuItem>
-            <NavLink className="w-full" to="/image-tools" size="lg">
+            <NavLink
+              className={`w-full ${path === "/image-tools" ? "active-tab" : ""}`}
+              to="/image-tools"
+              size="lg"
+            >
               Image Tools
             </NavLink>
           </NavbarMenuItem>
           <NavbarMenuItem>
-            <NavLink className="w-full" to="/about" size="lg">
+            <NavLink
+              className={`w-full ${path === "/about" ? "active-tab" : ""}`}
+              to="/about"
+              size="lg"
+            >
               About
             </NavLink>
           </NavbarMenuItem>

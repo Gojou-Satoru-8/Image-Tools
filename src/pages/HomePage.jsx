@@ -6,13 +6,14 @@ const HomePage = function () {
     <MainContent title="Welcome to Image Tools">
       <h2 className="text-xl mb-4">Your Comprehensive toolset for PDF and Image processing</h2>
       <p className="text-lg">Choose One of the services below (PDF Tools coming soon!)</p>
-      <div className="flex flex-wrap justify-around py-10">
+      <div className="flex flex-wrap gap-12 justify-around py-10">
         <Link to="/image-tools">
           <Card
+            classNames={{ base: "w-80 h-96 flex-grow" }}
             isBlurred
             isFooterBlurred
             radius="lg"
-            className="before:bg-white/10 border-white/20 border-1 overflow-hidden py-1 before:rounded-xl rounded-large bottom-1 shadow-small p-10 flex flex-col items-center"
+            className="border-1 py-1 rounded-large bottom-1 shadow-small p-2 flex flex-col items-center"
           >
             <Image
               alt="Image Tools"
@@ -21,8 +22,8 @@ const HomePage = function () {
               src="picture.png"
               width={250}
             />
-            <CardFooter className="w-4/5 m-auto flex justify-center">
-              <p className="text-medium text-center dark:text-white/80 text-black ">
+            <CardFooter className="flex justify-center w-full">
+              <p className="text-center dark:text-white/80 text-black ">
                 Compression, Conversion, Resizing...
               </p>
             </CardFooter>
@@ -30,10 +31,11 @@ const HomePage = function () {
         </Link>
         <Link to="/pdf-tools">
           <Card
+            classNames={{ base: "w-80 h-96 flex-grow" }}
             isBlurred
             isFooterBlurred
             radius="lg"
-            className="before:bg-white/10 border-white/20 border-1 overflow-hidden py-1 before:rounded-xl rounded-large bottom-1 shadow-small p-10 flex flex-col items-center"
+            className="border-1 py-1 rounded-large bottom-1 shadow-small p-2 flex flex-col items-center basis-[45%]"
           >
             <Image
               alt="Image Tools"
