@@ -16,7 +16,7 @@ const ImageToolsPage = function () {
       <FormModal isOpen={isOpen} onOpenChange={onOpenChange} service={service} />
       <MainContent title={"Image Tools"}>
         <h2 className="text-xl mb-4">Select any of the services below</h2>
-        <div className="w-full m-auto flex flex-wrap justify-center gap-4 sm:gap-8 px-8 my-16">
+        <div className="w-full m-auto flex flex-wrap justify-center gap-8 px-8 my-16">
           <ServiceCard
             title="Compress"
             message="Select from a number of options available"

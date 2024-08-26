@@ -17,6 +17,7 @@
     "@nextui-org/system": "^2.2.5",
     "@nextui-org/theme": "^2.2.9",
     "browser-image-compression": "^2.0.2",
+    "browser-image-resizer": "^2.4.1",
     "framer-motion": "^11.3.30",
     "next-themes": "^0.3.0",
     "react": "^18.3.1",

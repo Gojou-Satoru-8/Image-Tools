@@ -8,14 +8,16 @@ import {
 } from "@nextui-org/react";
 import { Slider, Select, SelectItem } from "@nextui-org/react";
 import { compressImage } from "../utils/imageCompressor";
+import { resizeImage } from "../utils/imageResizer";
 import { useState } from "react";
 
 export const CompressFormContents = () => {
-  const [downloadImage, setDownloadImage] = useState({ url: "", format: "" });
+  const [downloadImageAvailable, setDownloadImageAvailable] = useState({ url: "", format: "" });
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmitCompress = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     const formData = new FormData(e.target);
     // console.log(Object.fromEntries(formData));
     const { image, compressPercent } = Object.fromEntries(formData);
@@ -23,7 +25,8 @@ export const CompressFormContents = () => {
     const compressedImage = await compressImage(image, +compressPercent);
     const compressedImageUrl = URL.createObjectURL(compressedImage);
     console.log("Compressed Image URL: ", compressedImageUrl);
-    setDownloadImage({ url: compressedImageUrl, format: image.type.split("/").at(1) });
+    setDownloadImageAvailable({ url: compressedImageUrl, format: image.type.split("/").at(1) });
+    setIsLoading(false);
   };
 
   return (
@@ -57,22 +60,26 @@ export const CompressFormContents = () => {
                 ]}
                 defaultValue={20}
                 className="max-w-md"
-                onChange={() => setDownloadImage({ url: "", format: "" })}
+                onChange={() => setDownloadImageAvailable({ url: "", format: "" })}
               />
             </ModalBody>
             <ModalFooter>
               <Button color="danger" variant="flat" onPress={onClose}>
                 Close
               </Button>
-              <Button color="primary" type="submit">
-                Go Ahead
-              </Button>
-              {isLoading && <h1>Loading</h1>}
-              {downloadImage.url && (
-                <Button color="primary" type="submit">
-                  <a href={downloadImage.url} download={`compressedImage.${downloadImage.format}`}>
+
+              {downloadImageAvailable.url ? (
+                <a
+                  href={downloadImageAvailable.url}
+                  download={`compressed_image.${downloadImageAvailable.format}`}
+                >
+                  <Button color="success" type="button">
                     Download Image
-                  </a>
+                  </Button>
+                </a>
+              ) : (
+                <Button color="primary" type="submit">
+                  {isLoading ? "Compressing..." : "Go Ahead"}
                 </Button>
               )}
             </ModalFooter>
@@ -86,11 +93,11 @@ export const CompressFormContents = () => {
 export const ConvertFormContents = () => {
   // const [downloadUrl, setDownloadUrl] = useState("");
   // const [format, setFormat] = useState("");
-  const [downloadImage, setDownloadImage] = useState({ url: "", format: "" });
+  const [downloadImageAvailable, setDownloadImageAvailable] = useState({ url: "", format: "" });
   const [isLoading, setIsLoading] = useState(false);
   const formats = ["jpg", "png", "tiff", "webp"];
 
-  console.log("Outside handler: ", downloadImage.format);
+  console.log("Outside handler: ", downloadImageAvailable.format);
 
   const handleSubmitConvert = async (e) => {
     e.preventDefault();
@@ -102,7 +109,7 @@ export const ConvertFormContents = () => {
     const convertedImageUrl = URL.createObjectURL(image);
     // console.log(convertedImageUrl, desiredFormat);
     setIsLoading(false);
-    setDownloadImage({ url: convertedImageUrl, format: desiredFormat });
+    setDownloadImageAvailable({ url: convertedImageUrl, format: desiredFormat });
   };
 
   return (
@@ -128,7 +135,7 @@ export const ConvertFormContents = () => {
                 name="desiredFormat"
                 label="Select an image format"
                 // variant="bordered"
-                onChange={() => setDownloadImage({ url: "", format: "" })}
+                onChange={() => setDownloadImageAvailable({ url: "", format: "" })}
                 // placeholder="Select an image format"
                 // className="max-w-xl"
               >
@@ -141,15 +148,19 @@ export const ConvertFormContents = () => {
               <Button color="danger" variant="flat" onPress={onClose}>
                 Close
               </Button>
-              <Button color="primary" type="submit">
-                Go Ahead
-              </Button>
-              {isLoading && <h1>Loading</h1>}
-              {downloadImage.url && (
-                <Button color="primary" type="submit">
-                  <a href={downloadImage.url} download={`compressedImage.${downloadImage.format}`}>
+
+              {downloadImageAvailable.url ? (
+                <a
+                  href={downloadImageAvailable.url}
+                  download={`converted_image.${downloadImageAvailable.format}`}
+                >
+                  <Button color="success" type="button">
                     Download Image
-                  </a>
+                  </Button>
+                </a>
+              ) : (
+                <Button color="primary" type="submit">
+                  {isLoading ? "Converting..." : "Go Ahead"}
                 </Button>
               )}
             </ModalFooter>
@@ -161,10 +172,21 @@ export const ConvertFormContents = () => {
 };
 
 export const ResizeFormContents = () => {
-  const [downloadImage, setDownloadImage] = useState({ url: "", format: "" });
+  const [downloadImageAvailable, setDownloadImageAvailable] = useState({ url: "", format: "" });
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmitResize = (e) => {};
+  const handleSubmitResize = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    const formData = new FormData(e.target);
+    const { image, x_pixels, y_pixels } = Object.fromEntries(formData);
+    const resizedImage = await resizeImage(image, x_pixels, y_pixels);
+    const resizedImageUrl = URL.createObjectURL(resizedImage);
+    console.log(resizedImageUrl);
+
+    setDownloadImageAvailable({ url: resizedImageUrl, format: image.type.split("/").at(1) });
+    setIsLoading(false);
+  };
   return (
     <form action="" encType="multipart/form-data" onSubmit={handleSubmitResize}>
       <ModalContent>
@@ -182,7 +204,9 @@ export const ResizeFormContents = () => {
                 required
                 accept="image/*"
               />
+
               <Input
+                name="x_pixels"
                 type="number"
                 // label="Select a file or drop one below"
                 placeholder="Horizontal pixel count"
@@ -190,26 +214,39 @@ export const ResizeFormContents = () => {
                 required
               />
               <Input
+                name="y_pixels"
                 type="number"
                 // label="Select a file or drop one below"
                 placeholder="Vertical pixel count"
                 // variant="bordered"
                 required
               />
+
+              <p className="w-[95%] m-auto text-justify">
+                NOTE: Our tool automatically optimizes your image's resolution while maintaining its
+                original aspect ratio. The dimensions you enter are used as maximum values. The
+                final image may be slightly smaller to ensure the best quality and proper
+                proportions. Rest assured, we'll provide the highest resolution possible within the
+                limits you set.
+              </p>
             </ModalBody>
             <ModalFooter>
               <Button color="danger" variant="flat" onPress={onClose}>
                 Close
               </Button>
-              <Button color="primary" type="submit">
-                Go Ahead
-              </Button>
-              {isLoading && <h1>Loading</h1>}
-              {downloadImage.url && (
-                <Button color="primary" type="submit">
-                  <a href={downloadImage.url} download={`compressedImage.${downloadImage.format}`}>
+
+              {downloadImageAvailable.url ? (
+                <a
+                  href={downloadImageAvailable.url}
+                  download={`resized_image.${downloadImageAvailable.format}`}
+                >
+                  <Button color="success" type="button">
                     Download Image
-                  </a>
+                  </Button>
+                </a>
+              ) : (
+                <Button color="primary" type="submit">
+                  {isLoading ? "Resizing..." : "Go Ahead"}
                 </Button>
               )}
             </ModalFooter>

@@ -4,23 +4,25 @@ import MainContent from "../components/MainContent";
 const HomePage = function () {
   return (
     <MainContent title="Welcome to Image Tools">
-      <h2 className="text-xl mb-4">Your Comprehensive toolset for PDF and Image processing</h2>
-      <p className="text-lg">Choose One of the services below (PDF Tools coming soon!)</p>
+      <h2 className="text-xl mb-4">Your Comprehensive toolset for Image processing</h2>
+      <p className="text-lg">Click on the card below to get started</p>
       <div className="flex flex-wrap gap-12 justify-around py-10">
         <Link to="/image-tools">
           <Card
-            classNames={{ base: "w-80 h-96 flex-grow" }}
+            classNames={{ base: "w-80 h-80 flex-grow" }}
             isBlurred
             isFooterBlurred
             radius="lg"
-            className="border-1 py-1 rounded-large bottom-1 shadow-small p-2 flex flex-col items-center"
+            className="py-1 rounded-large bottom-1 shadow-md dark:shadow-gray-700 p-2 flex flex-col items-center"
           >
             <Image
               alt="Image Tools"
+              isBlurred
+              isZoomed
               className="object-cover"
-              height={250}
+              height={200}
               src="picture.png"
-              width={250}
+              width={200}
             />
             <CardFooter className="flex justify-center w-full">
               <p className="text-center dark:text-white/80 text-black ">
@@ -29,9 +31,9 @@ const HomePage = function () {
             </CardFooter>
           </Card>
         </Link>
-        <Link to="/pdf-tools">
+        {/* <Link to="/pdf-tools">
           <Card
-            classNames={{ base: "w-80 h-96 flex-grow" }}
+            classNames={{ base: "w-80 h-80 flex-grow" }}
             isBlurred
             isFooterBlurred
             radius="lg"
@@ -40,15 +42,15 @@ const HomePage = function () {
             <Image
               alt="Image Tools"
               className="object-cover"
-              height={250}
+              height={200}
               src="pdf-file.png"
-              width={250}
+              width={200}
             />
             <CardFooter className="w-4/5 m-auto flex justify-center">
               <p className="text-medium dark:text-white/80 text-black ">Available soon.</p>
             </CardFooter>
           </Card>
-        </Link>
+        </Link> */}
       </div>
     </MainContent>
   );
